@@ -63,7 +63,6 @@ sed -i "s@MIRRORLIST_COUNTRY=@MIRRORLIST_COUNTRY=${MIRRORLIST_COUNTRY}@g" /root/
 sed -i "s@DISK=@DISK=${DISK}@g" /root/archscript/afterchroot-script.sh
 sed -i "s@TIME_ZONE=@TIME_ZONE=${TIME_ZONE}@g" /root/archscript/afterchroot-script.sh
 sed -i "s@HOSTNAME=@HOSTNAME=${HOSTNAME}@g" /root/archscript/afterchroot-script.sh
-sed -i "s@MIRRORLIST_COUNTRY=@MIRRORLIST_COUNTRY=${MIRRORLIST_COUNTRY}@g" /root/archscript/afterchroot-script.sh
 sed -i "s@CPU_BRAND=@CPU_BRAND=${CPU_BRAND}@g" /root/archscript/afterchroot-script.sh
 sed -i "s@GRUB_BOOTLOADER_ID=@GRUB_BOOTLOADER_ID=${GRUB_BOOTLOADER_ID}@g" /root/archscript/afterchroot-script.sh
 sed -i "s@USERNAME=@USERNAME=${USERNAME}@g" /root/archscript/afterchroot-script.sh
