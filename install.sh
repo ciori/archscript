@@ -11,15 +11,32 @@ USERNAME=
 # INITIAL PACMAN SETUP
 
 reflector --country $MIRRORLIST_COUNTRY --latest 5 --sort rate --save /etc/pacman.d/mirrorlist
-# add pacman color and parallel downloads option
-# check timedatectl status is synchronized
+sed -i 's/#Color/Color/g' /etc/pacman.conf
+sed -i 's/#ParallelDownloads/ParallelDownloads/g' /etc/pacman.conf
 pacman -Syy
 
 # SETUP DISK AND FILE SYSTEM
 
-# partition disk and encryption
-mkfs.vfat -n BOOT ${DISK}1
-mkfs.btrfs -n ROOT ${DISK}2
+fdisk $DISK <<EOF
+g
+n
+1
+
++512M
+t
+1
+n
+2
+
+
+t
+2
+20
+w
+EOF
+# encryption
+mkfs.vfat ${DISK}1
+mkfs.btrfs ${DISK}2
 mount ${DISK}2 /mnt
 cd /mnt
 btrfs su cr @
@@ -48,7 +65,8 @@ arch-chroot /mnt
 ln -sf /usr/share/zoneinfo/${TIME_ZONE} /etc/localtime
 hwclock --systohc --utc
 reflector --country $MIRRORLIST_COUNTRY --latest 5 --sort rate --save /etc/pacman.d/mirrorlist
-# add pacman color and parallel downloads option
+sed -i 's/#Color/Color/g' /etc/pacman.conf
+sed -i 's/#ParallelDownloads/ParallelDownloads/g' /etc/pacman.conf
 pacman -Syy
 sed -i 's/#en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen
 locale-gen
@@ -61,7 +79,7 @@ cat <<EOF >> /etc/hosts
 127.0.1.1 ${HOSTNAME}.localdomain ${HOSTNAME}
 EOF
 pacman --noconfirm -S ${CPU_BRAND}-ucode
-pacman --noconfirm -S os-prober efiboot-mgr grub
+pacman --noconfirm -S os-prober efibootmgr grub
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=${GRUB_BOOTLOADER_ID}
 grub-mkconfig -o /boot/grub/grub.cfg
 sed -i 's/BINARIES=()/BINARIES=(btrfs)/g' /etc/mkinitcpio.conf
