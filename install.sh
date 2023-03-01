@@ -2,6 +2,11 @@
 
 MIRRORLIST_COUNTRY=
 DISK=
+TIME_ZONE=
+HOSTNAME=
+CPU_BRAND= # "amd" or "intel"
+GRUB_BOOTLOADER_ID=
+USERNAME=
 
 # INITIAL PACMAN SETUP
 
@@ -53,4 +58,14 @@ mount ${DISK}1 /mnt/boot/efi
 
 pacstrap -K /mnt base linux linux-firmware base-devel git reflector
 genfstab -U /mnt >> /mnt/etc/fstab
-arch-chroot /mnt
+chmod +x /afterchroot-script.sh
+cp ./afterchroot-script.sh /mnt/afterchroot-script.sh
+sed -i "s/MIRRORLIST_COUNTRY=/MIRRORLIST_COUNTRY=${MIRRORLIST_COUNTRY}/g" ./afterchroot-script.sh
+sed -i "s/DISK=/DISK=${DISK}/g" ./afterchroot-script.sh
+sed -i "s/TIME_ZONE=/TIME_ZONE=${TIME_ZONE}/g" ./afterchroot-script.sh
+sed -i "s/HOSTNAME=/HOSTNAME=${HOSTNAME}/g" ./afterchroot-script.sh
+sed -i "s/MIRRORLIST_COUNTRY=/MIRRORLIST_COUNTRY=${MIRRORLIST_COUNTRY}/g" ./afterchroot-script.sh
+sed -i "s/CPU_BRAND=/CPU_BRAND=${CPU_BRAND}/g" ./afterchroot-script.sh
+sed -i "s/GRUB_BOOTLOADER_ID=/GRUB_BOOTLOADER_ID=${GRUB_BOOTLOADER_ID}/g" ./afterchroot-script.sh
+sed -i "s/USERNAME=/USERNAME=${USERNAME}/g" ./afterchroot-script.sh
+arch-chroot /mnt ./afterchroot-script.sh

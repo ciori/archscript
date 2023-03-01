@@ -24,7 +24,15 @@ The script will setup Arch Linux with the following configuration and is intende
 ## Usage
 
 The script needs to be executed inside the live usb with network connectivity already working:
-- `...`
+- ```
+  pacman -Syy
+  pacman -S git
+  git clone https://github.com/ciori/archscript.git
+  cd archscript
+  chmod +x install.sh
+  ```
+- populate variables inside install.sh: `vim install.sh`
+- execute script: `./install.sh`
 
 ## TODOs
 
