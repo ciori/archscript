@@ -29,6 +29,7 @@ cat <<EOF >> /etc/hosts
 EOF
 pacman --noconfirm -S ${CPU_BRAND}-ucode
 pacman --noconfirm -S os-prober efibootmgr grub
+pacman --noconfirm -S btrfs-progs
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=${GRUB_BOOTLOADER_ID}
 grub-mkconfig -o /boot/grub/grub.cfg
 
@@ -39,7 +40,8 @@ mkinitcpio -p linux
 
 # SETUP DESKTOP ENVIRONMENT
 
-# install desktop environment and related stuff
+pacman --noconfirm -S pipewire pipewire-jack wireplumber
+pacman --noconfirm -S gnome
 
 # SETUP USER
 
