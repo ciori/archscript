@@ -13,6 +13,7 @@ USERNAME=
 ln -sf /usr/share/zoneinfo/${TIME_ZONE} /etc/localtime
 hwclock --systohc --utc
 reflector --country $MIRRORLIST_COUNTRY --latest 5 --sort rate --save /etc/pacman.d/mirrorlist
+systemctl enable --now reflector.timer
 sed -i 's/#Color/Color/g' /etc/pacman.conf
 sed -i 's/#ParallelDownloads/ParallelDownloads/g' /etc/pacman.conf
 pacman -Syy
@@ -30,9 +31,11 @@ pacman --noconfirm -S ${CPU_BRAND}-ucode
 pacman --noconfirm -S os-prober efibootmgr grub
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=${GRUB_BOOTLOADER_ID}
 grub-mkconfig -o /boot/grub/grub.cfg
+
+# SETUP BTRFS
+
 sed -i 's/BINARIES=()/BINARIES=(btrfs)/g' /etc/mkinitcpio.conf
 mkinitcpio -p linux
-systemctl enable --now reflector.timer
 
 # SETUP DESKTOP ENVIRONMENT
 
