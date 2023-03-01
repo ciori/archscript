@@ -58,13 +58,13 @@ mount ${DISK}1 /mnt/boot/efi
 
 pacstrap -K /mnt base linux linux-firmware base-devel git reflector
 genfstab -U /mnt >> /mnt/etc/fstab
-chmod +x /root/archscript/afterchroot-script.sh
-sed -i "s@MIRRORLIST_COUNTRY=@MIRRORLIST_COUNTRY=${MIRRORLIST_COUNTRY}@g" /root/archscript/afterchroot-script.sh
-sed -i "s@DISK=@DISK=${DISK}@g" /root/archscript/afterchroot-script.sh
-sed -i "s@TIME_ZONE=@TIME_ZONE=${TIME_ZONE}@g" /root/archscript/afterchroot-script.sh
-sed -i "s@HOSTNAME=@HOSTNAME=${HOSTNAME}@g" /root/archscript/afterchroot-script.sh
-sed -i "s@CPU_BRAND=@CPU_BRAND=${CPU_BRAND}@g" /root/archscript/afterchroot-script.sh
-sed -i "s@GRUB_BOOTLOADER_ID=@GRUB_BOOTLOADER_ID=${GRUB_BOOTLOADER_ID}@g" /root/archscript/afterchroot-script.sh
-sed -i "s@USERNAME=@USERNAME=${USERNAME}@g" /root/archscript/afterchroot-script.sh
-cp /root/archscript/afterchroot-script.sh /mnt/afterchroot-script.sh
-arch-chroot /mnt ./afterchroot-script.sh
+chmod +x /root/archscript/chroot.sh
+sed -i "s@MIRRORLIST_COUNTRY=@MIRRORLIST_COUNTRY=${MIRRORLIST_COUNTRY}@g" /root/archscript/chroot.sh
+sed -i "s@DISK=@DISK=${DISK}@g" /root/archscript/chroot.sh
+sed -i "s@TIME_ZONE=@TIME_ZONE=${TIME_ZONE}@g" /root/archscript/chroot.sh
+sed -i "s@HOSTNAME=@HOSTNAME=${HOSTNAME}@g" /root/archscript/chroot.sh
+sed -i "s@CPU_BRAND=@CPU_BRAND=${CPU_BRAND}@g" /root/archscript/chroot.sh
+sed -i "s@GRUB_BOOTLOADER_ID=@GRUB_BOOTLOADER_ID=${GRUB_BOOTLOADER_ID}@g" /root/archscript/chroot.sh
+sed -i "s@USERNAME=@USERNAME=${USERNAME}@g" /root/archscript/chroot.sh
+cp /root/archscript/chroot.sh /mnt/chroot.sh
+arch-chroot /mnt ./chroot.sh
