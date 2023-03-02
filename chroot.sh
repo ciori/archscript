@@ -37,8 +37,11 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 #sed -i 's/BINARIES=()/BINARIES=(btrfs)/g' /etc/mkinitcpio.conf
 sed -i 's/MODULES=()/MODULES=(btrfs)/g' /etc/mkinitcpio.conf
-# add encrypt before filesystems hook
-# other settings needed ...
+sed -i 's/HOOKS=(base udev autodetect modconf kms keyboard keymap consolefont block filesystems fsck)/HOOKS=(base udev autodetect modconf kms keyboard keymap consolefont block encrypt filesystems fsck)/g' /etc/mkinitcpio.conf
+sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT/#GRUB_CMDLINE_LINUX_DEFAULT/g' /etc/default/grub
+DISK_UUID=$(blkid | grep ${DISK}2 | awk '{print $2}' | awk '{split($0, a, "="); print a[2]}' | tr -d '"')
+echo "GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 quiet cryptdevice=UUID=${DISK_UUID}:cryptroot root=/dev/mapper/cryptroot\"" >> /etc/default/grub
+grub-mkconfig -o /boot/grub/grub.cfg
 mkinitcpio -p linux
 
 # SETUP DESKTOP ENVIRONMENT

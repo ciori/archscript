@@ -38,4 +38,5 @@ The script needs to be executed inside the live usb with network connectivity al
 
 Some things not yet implemented:
 - secure boot support
-- disk encryption 
+- disk encryption
+- Discard/TRIM option in cryptdevice?
