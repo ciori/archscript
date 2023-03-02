@@ -34,10 +34,11 @@ t
 20
 w
 EOF
-# encryption
+cryptsetup luksFormat ${DISK}2
+cryptsetup luksOpen ${DISK}2 cryptroot
 mkfs.vfat ${DISK}1
-mkfs.btrfs ${DISK}2
-mount ${DISK}2 /mnt
+mkfs.btrfs /dev/mapper/cryptroot
+mount /dev/mapper/cryptroot /mnt
 cd /mnt
 btrfs su cr @
 btrfs su cr @cache
@@ -46,12 +47,12 @@ btrfs su cr @log
 btrfs su cr @snapshots
 cd
 umount /mnt
-mount -o compress=zstd:1,noatime,subvol=@ ${DISK}2 /mnt
+mount -o compress=zstd:1,noatime,subvol=@ /dev/mapper/cryptroot /mnt
 mkdir -p /mnt/{boot/efi,home,.snapshots,var/{cache,log}}
-mount -o compress=zstd:1,noatime,subvol=@home ${DISK}2 /mnt/home
-mount -o compress=zstd:1,noatime,subvol=@snapshots ${DISK}2 /mnt/.snapshots
-mount -o compress=zstd:1,noatime,subvol=@cache ${DISK}2 /mnt/var/cache
-mount -o compress=zstd:1,noatime,subvol=@log ${DISK}2 /mnt/var/log
+mount -o compress=zstd:1,noatime,subvol=@home /dev/mapper/cryptroot /mnt/home
+mount -o compress=zstd:1,noatime,subvol=@snapshots /dev/mapper/cryptroot /mnt/.snapshots
+mount -o compress=zstd:1,noatime,subvol=@cache /dev/mapper/cryptroot /mnt/var/cache
+mount -o compress=zstd:1,noatime,subvol=@log /dev/mapper/cryptroot /mnt/var/log
 mount ${DISK}1 /mnt/boot/efi
 
 # INITIAL BOOTSTRAP

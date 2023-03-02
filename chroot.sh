@@ -33,9 +33,12 @@ pacman --noconfirm -S btrfs-progs
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=${GRUB_BOOTLOADER_ID}
 grub-mkconfig -o /boot/grub/grub.cfg
 
-# SETUP BTRFS
+# SETUP BTRFS AND ENCRYPTION
 
-sed -i 's/BINARIES=()/BINARIES=(btrfs)/g' /etc/mkinitcpio.conf
+#sed -i 's/BINARIES=()/BINARIES=(btrfs)/g' /etc/mkinitcpio.conf
+sed -i 's/MODULES=()/MODULES=(btrfs)/g' /etc/mkinitcpio.conf
+# add encrypt before filesystems hook
+# other settings needed ...
 mkinitcpio -p linux
 
 # SETUP DESKTOP ENVIRONMENT
@@ -43,7 +46,10 @@ mkinitcpio -p linux
 pacman --noconfirm -S pipewire pipewire-jack wireplumber
 pacman --noconfirm -S networkmanager
 pacman --noconfirm -S gnome
+pacman --noconfirm -S cups
 systemctl enable gdm.service
+systemctl enable NetworkManager.service
+systemctl enable cups.service
 
 # SETUP USER
 

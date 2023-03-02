@@ -25,8 +25,8 @@ snapper -c root create -d "BASE"
 
 # ---
 
-exit
-umount -a
-reboot
 # other usually post-install stuff
-# cups
+
+# FLATPAK
+
+# ...
