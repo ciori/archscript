@@ -36,7 +36,7 @@ w
 EOF
 cryptsetup luksFormat ${DISK}2
 cryptsetup luksOpen ${DISK}2 cryptroot
-mkfs.vfat ${DISK}1
+mkfs.fat -F32 ${DISK}1
 mkfs.btrfs /dev/mapper/cryptroot
 mount /dev/mapper/cryptroot /mnt
 cd /mnt
