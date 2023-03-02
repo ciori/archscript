@@ -7,19 +7,13 @@ cd
 
 # SETUP DESKTOP ENVIRONMENT
 
-pacman --noconfirm -S pipewire pipewire-jack wireplumber
-pacman --noconfirm -S networkmanager
-pacman --noconfirm -S gnome
-pacman --noconfirm -S cups
-systemctl enable gdm.service
-systemctl enable NetworkManager.service
-systemctl enable cups.service
-
-# SETUP USER
-
-useradd -m -G wheel -s /bin/bash $USERNAME
-passwd $USERNAME
-sed -i 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/g' /etc/sudoers
+sudo pacman --noconfirm -S pipewire pipewire-jack wireplumber
+sudo pacman --noconfirm -S networkmanager
+sudo pacman --noconfirm -S gnome
+sudo pacman --noconfirm -S cups
+sudo systemctl enable gdm.service
+sudo systemctl enable NetworkManager.service
+sudo systemctl enable cups.service
 
 # INSTALL PARU
 
@@ -32,17 +26,17 @@ rm -rf paru
 # SETUP SNAPPER
 
 paru --noconfirm -S grub-btrfs snap-pac snapper snapper-support
-snapper -c root create-config /
+sudo snapper -c root create-config /
 # check if using systemd timers
 # add creation and fixing btrfs subvolumes
-sed -i 's/ALLOW_GROUPS=""/ALLOW_GROUPS="wheel"/g' /etc/snapper/configs/root
-sed -i 's/TIMELINE_CREATE="yes"/TIMELINE_CREATE="no"/g' /etc/snapper/configs/root
-sed -i 's/TIMELINE_LIMIT_HOURLY="10"/TIMELINE_LIMIT_HOURLY="5"/g' /etc/snapper/configs/root
-sed -i 's/TIMELINE_LIMIT_DAILY="10"/TIMELINE_LIMIT_DAILY="7"/g' /etc/snapper/configs/root
-sed -i 's/TIMELINE_LIMIT_MONTHLY="10"/TIMELINE_LIMIT_MONTHLY="0"/g' /etc/snapper/configs/root
-sed -i 's/TIMELINE_LIMIT_YEARLY="10"/TIMELINE_LIMIT_YEARLY="0"/g' /etc/snapper/configs/root
-chown -R :wheel /.snapshots
-snapper -c root create -d "BASE"
+sudo sed -i 's/ALLOW_GROUPS=""/ALLOW_GROUPS="wheel"/g' /etc/snapper/configs/root
+sudo sed -i 's/TIMELINE_CREATE="yes"/TIMELINE_CREATE="no"/g' /etc/snapper/configs/root
+sudo sed -i 's/TIMELINE_LIMIT_HOURLY="10"/TIMELINE_LIMIT_HOURLY="5"/g' /etc/snapper/configs/root
+sudo sed -i 's/TIMELINE_LIMIT_DAILY="10"/TIMELINE_LIMIT_DAILY="7"/g' /etc/snapper/configs/root
+sudo sed -i 's/TIMELINE_LIMIT_MONTHLY="10"/TIMELINE_LIMIT_MONTHLY="0"/g' /etc/snapper/configs/root
+sudo sed -i 's/TIMELINE_LIMIT_YEARLY="10"/TIMELINE_LIMIT_YEARLY="0"/g' /etc/snapper/configs/root
+sudo chown -R :wheel /.snapshots
+sudo snapper -c root create -d "BASE"
 
 # ---
 

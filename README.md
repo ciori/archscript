@@ -16,7 +16,7 @@ The script will setup Arch Linux with the following configuration and is intende
 - partition disk and setup ssd friendly mount options
 - format with btrfs and snapper for snapshots
 - zram
-- paru
+- paru and flatpak
 - gnome
 
 **This script is highly experimental and specific and it doesn't do any checks on user inputs and possible errors**

@@ -51,3 +51,9 @@ cat <<EOF >> /etc/systemd/zram-generator.conf
 [zram0]
 zram-size = ram / 2
 EOF
+
+# SETUP USER
+
+useradd -m -G wheel -s /bin/bash $USERNAME
+passwd $USERNAME
+sed -i 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/g' /etc/sudoers
