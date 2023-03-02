@@ -44,22 +44,6 @@ echo "GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 quiet cryptdevice=UUID=${DISK_UUID
 grub-mkconfig -o /boot/grub/grub.cfg
 mkinitcpio -p linux
 
-# SETUP DESKTOP ENVIRONMENT
-
-pacman --noconfirm -S pipewire pipewire-jack wireplumber
-pacman --noconfirm -S networkmanager
-pacman --noconfirm -S gnome
-pacman --noconfirm -S cups
-systemctl enable gdm.service
-systemctl enable NetworkManager.service
-systemctl enable cups.service
-
-# SETUP USER
-
-useradd -m -G wheel -s /bin/bash $USERNAME
-passwd $USERNAME
-sed -i 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/g' /etc/sudoers
-
 # SETUP ZRAM
 
 pacman --noconfirm -S zram-generator
@@ -67,5 +51,3 @@ cat <<EOF >> /etc/systemd/zram-generator.conf
 [zram0]
 zram-size = ram / 2
 EOF
-# systemctl daemon-reload
-# systemctl start /dev/zram0

@@ -33,6 +33,8 @@ The script needs to be executed inside the live usb with network connectivity al
   ```
 - populate variables inside install.sh: `vim install.sh`
 - execute script: `./install.sh`
+- reboot the system and login with the created user
+- execute the post reboot script: `curl -sSL https://raw.githubusercontent.com/ciori/archscript/main/post-reboot.sh | bash`
 
 ## TODOs
 

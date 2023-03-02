@@ -1,5 +1,26 @@
 #!/bin/bash
 
+# REMOVE CHROOT SCRIPT
+
+sudo rm -rf /chroot.sh
+cd
+
+# SETUP DESKTOP ENVIRONMENT
+
+pacman --noconfirm -S pipewire pipewire-jack wireplumber
+pacman --noconfirm -S networkmanager
+pacman --noconfirm -S gnome
+pacman --noconfirm -S cups
+systemctl enable gdm.service
+systemctl enable NetworkManager.service
+systemctl enable cups.service
+
+# SETUP USER
+
+useradd -m -G wheel -s /bin/bash $USERNAME
+passwd $USERNAME
+sed -i 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/g' /etc/sudoers
+
 # INSTALL PARU
 
 git clone https://aur.archlinux.org/paru
