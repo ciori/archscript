@@ -22,7 +22,7 @@ g
 n
 1
 
-+512M
++1G
 t
 1
 n
@@ -36,8 +36,8 @@ w
 EOF
 cryptsetup luksFormat ${DISK}2
 cryptsetup luksOpen ${DISK}2 cryptroot
-mkfs.fat -F32 ${DISK}1
-mkfs.btrfs /dev/mapper/cryptroot
+mkfs.fat -F32 -n BOOT ${DISK}1
+mkfs.btrfs -L ROOT /dev/mapper/cryptroot
 mount /dev/mapper/cryptroot /mnt
 cd /mnt
 btrfs su cr @
@@ -57,7 +57,7 @@ mount ${DISK}1 /mnt/boot/efi
 
 # INITIAL BOOTSTRAP
 
-pacstrap -K /mnt base linux linux-firmware base-devel git reflector
+pacstrap -K /mnt base linux linux-firmware base-devel cryptsetup btrfs-progs git reflector
 genfstab -U /mnt >> /mnt/etc/fstab
 chmod +x /root/archscript/chroot.sh
 sed -i "s@MIRRORLIST_COUNTRY=@MIRRORLIST_COUNTRY=${MIRRORLIST_COUNTRY}@g" /root/archscript/chroot.sh

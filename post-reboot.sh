@@ -12,8 +12,9 @@ sudo pacman --noconfirm -S networkmanager
 sudo pacman --noconfirm -S gnome
 sudo pacman --noconfirm -S cups
 sudo systemctl enable gdm.service
-sudo systemctl enable NetworkManager.service
-sudo systemctl enable cups.service
+sudo systemctl enable --now NetworkManager.service
+sudo systemctl enable --now cups.service
+sudo systemctl enable --now reflector.timer
 
 # INSTALL PARU
 

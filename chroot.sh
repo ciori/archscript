@@ -13,7 +13,6 @@ USERNAME=
 ln -sf /usr/share/zoneinfo/${TIME_ZONE} /etc/localtime
 hwclock --systohc --utc
 reflector --country $MIRRORLIST_COUNTRY --latest 5 --sort rate --save /etc/pacman.d/mirrorlist
-systemctl enable --now reflector.timer
 sed -i 's/#Color/Color/g' /etc/pacman.conf
 sed -i 's/#ParallelDownloads/ParallelDownloads/g' /etc/pacman.conf
 pacman -Syy
@@ -29,14 +28,13 @@ cat <<EOF >> /etc/hosts
 EOF
 pacman --noconfirm -S ${CPU_BRAND}-ucode
 pacman --noconfirm -S os-prober efibootmgr grub
-pacman --noconfirm -S btrfs-progs
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=${GRUB_BOOTLOADER_ID}
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # SETUP BTRFS AND ENCRYPTION
 
 #sed -i 's/BINARIES=()/BINARIES=(btrfs)/g' /etc/mkinitcpio.conf
-sed -i 's/MODULES=()/MODULES=(btrfs)/g' /etc/mkinitcpio.conf
+#sed -i 's/MODULES=()/MODULES=(btrfs)/g' /etc/mkinitcpio.conf
 sed -i 's/HOOKS=(base udev autodetect modconf kms keyboard keymap consolefont block filesystems fsck)/HOOKS=(base udev autodetect modconf kms keyboard keymap consolefont block encrypt filesystems fsck)/g' /etc/mkinitcpio.conf
 mkinitcpio -p linux
 sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT/#GRUB_CMDLINE_LINUX_DEFAULT/g' /etc/default/grub
