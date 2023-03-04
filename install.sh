@@ -48,16 +48,16 @@ btrfs su cr @snapshots
 cd
 umount /mnt
 mount -o compress=zstd:1,noatime,subvol=@ /dev/mapper/cryptroot /mnt
-mkdir -p /mnt/{boot/efi,home,.snapshots,var/{cache,log}}
+mkdir -p /mnt/{boot,home,.snapshots,var/{cache,log}}
 mount -o compress=zstd:1,noatime,subvol=@home /dev/mapper/cryptroot /mnt/home
 mount -o compress=zstd:1,noatime,subvol=@snapshots /dev/mapper/cryptroot /mnt/.snapshots
 mount -o compress=zstd:1,noatime,subvol=@cache /dev/mapper/cryptroot /mnt/var/cache
 mount -o compress=zstd:1,noatime,subvol=@log /dev/mapper/cryptroot /mnt/var/log
-mount ${DISK}1 /mnt/boot/efi
+mount ${DISK}1 /mnt/boot
 
 # INITIAL BOOTSTRAP
 
-pacstrap -K /mnt base linux linux-firmware base-devel cryptsetup btrfs-progs git reflector rsync
+pacstrap -K /mnt base linux linux-firmware base-devel cryptsetup btrfs-progs git reflector rsync vim
 genfstab -U /mnt >> /mnt/etc/fstab
 chmod +x /root/archscript/chroot.sh
 sed -i "s@MIRRORLIST_COUNTRY=@MIRRORLIST_COUNTRY=${MIRRORLIST_COUNTRY}@g" /root/archscript/chroot.sh
