@@ -28,18 +28,20 @@ cat <<EOF >> /etc/hosts
 EOF
 pacman --noconfirm -S ${CPU_BRAND}-ucode
 pacman --noconfirm -S os-prober efibootmgr grub
+#sed -i 's/#GRUB_ENABLE_CRYPTODISK/GRUB_ENABLE_CRYPTODISK/g' /etc/default/grub
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=${GRUB_BOOTLOADER_ID}
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # SETUP BTRFS AND ENCRYPTION
 
 #sed -i 's/BINARIES=()/BINARIES=(btrfs)/g' /etc/mkinitcpio.conf
-#sed -i 's/MODULES=()/MODULES=(btrfs)/g' /etc/mkinitcpio.conf
+sed -i 's/MODULES=()/MODULES=(btrfs)/g' /etc/mkinitcpio.conf
 sed -i 's/HOOKS=(base udev autodetect modconf kms keyboard keymap consolefont block filesystems fsck)/HOOKS=(base udev autodetect modconf kms keyboard keymap consolefont block encrypt filesystems fsck)/g' /etc/mkinitcpio.conf
 mkinitcpio -p linux
 sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT/#GRUB_CMDLINE_LINUX_DEFAULT/g' /etc/default/grub
 DISK_UUID=$(blkid | grep ${DISK}2 | awk '{print $2}' | awk '{split($0, a, "="); print a[2]}' | tr -d '"')
 echo "GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 quiet cryptdevice=UUID=${DISK_UUID}:cryptroot root=/dev/mapper/cryptroot\"" >> /etc/default/grub
+# please add GRUB_PRELOAD_MODULES="btrfs" in /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # SETUP ZRAM
@@ -54,4 +56,5 @@ EOF
 
 useradd -m -G wheel -s /bin/bash $USERNAME
 passwd $USERNAME
-sed -i 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/g' /etc/sudoers
+#sed -i 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/g' /etc/sudoers
+visudo

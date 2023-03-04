@@ -22,7 +22,7 @@ g
 n
 1
 
-+1G
++512M
 t
 1
 n
@@ -57,7 +57,7 @@ mount ${DISK}1 /mnt/boot/efi
 
 # INITIAL BOOTSTRAP
 
-pacstrap -K /mnt base linux linux-firmware base-devel cryptsetup btrfs-progs git reflector
+pacstrap -K /mnt base linux linux-firmware base-devel cryptsetup btrfs-progs git reflector rsync
 genfstab -U /mnt >> /mnt/etc/fstab
 chmod +x /root/archscript/chroot.sh
 sed -i "s@MIRRORLIST_COUNTRY=@MIRRORLIST_COUNTRY=${MIRRORLIST_COUNTRY}@g" /root/archscript/chroot.sh
