@@ -36,13 +36,9 @@ sed -i 's/BINARIES=()/BINARIES=(/usr/bin/btrfs)/g' /etc/mkinitcpio.conf
 sed -i 's/MODULES=()/MODULES=(btrfs)/g' /etc/mkinitcpio.conf
 sed -i 's/HOOKS=(base udev autodetect modconf kms keyboard keymap consolefont block filesystems fsck)/HOOKS=(base udev autodetect modconf kms keyboard keymap consolefont block encrypt filesystems fsck)/g' /etc/mkinitcpio.conf
 mkinitcpio -p linux
-sed -i 's/#GRUB_ENABLE_CRYPTDISK/GRUB_ENABLE_CRYPTDISK/g' /etc/default/grub
-#sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT/#GRUB_CMDLINE_LINUX_DEFAULT/g' /etc/default/grub
 DISK_UUID=$(blkid | grep ${DISK}2 | awk '{print $2}' | awk '{split($0, a, "="); print a[2]}' | tr -d '"')
-sed -i 's/GRUB_CMDLINE_LINUX/#GRUB_CMDLINE_LINUX/g' /etc/default/grub
-#echo "GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 quiet cryptdevice=UUID=${DISK_UUID}:cryptroot root=/dev/mapper/cryptroot\"" >> /etc/default/grub
+sed -i 's/GRUB_CMDLINE_LINUX=/#GRUB_CMDLINE_LINUX=/g' /etc/default/grub
 echo "GRUB_CMDLINE_LINUX=\"cryptdevice=UUID=${DISK_UUID}:cryptroot rootfstye=btrfs\"" >> /etc/default/grub
-# please add GRUB_PRELOAD_MODULES="btrfs" in /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # SETUP ZRAM
@@ -57,5 +53,4 @@ EOF
 
 useradd -m -G wheel -s /bin/bash $USERNAME
 passwd $USERNAME
-#sed -i 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/g' /etc/sudoers
 visudo
