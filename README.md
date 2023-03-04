@@ -32,7 +32,8 @@ The script needs to be executed inside the live usb with network connectivity al
   chmod +x install.sh
   ```
 - populate variables inside install.sh: `vim install.sh`
-- execute script: `./install.sh`
+- execute the script: `./install.sh`
+  - it will finish by opening the sudoers file with visudo, uncomment the wheel line to allow the user to use sudo
 - reboot the system and login with the created user
 - execute the post reboot script: `curl -sSL https://raw.githubusercontent.com/ciori/archscript/main/post-reboot.sh | bash`
 
